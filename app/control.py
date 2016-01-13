@@ -3,12 +3,18 @@ import analyse
 
 from capture import INPUT_STREAM
 from playback import shush
-
-loudness = -40
+from visualize import show_loudness
 
 
 def main():
+    # Initial values.
+    loudness = -40
+    loop_count = 0
+
+    # Main control loop.
     while True:
+        loop_count += 1
+
         # Read raw microphone data
         rawsamps = INPUT_STREAM.read(1024)
         # Convert raw data to NumPy array
@@ -19,8 +25,14 @@ def main():
             analyse.musical_detect_pitch(samps)
         )
 
-        # Show the volume and pitch
-        # print loudness
+        # Poll for config changes.
+        if loop_count % 100 == 0:
+            print '\n\n Updating config...\n\n\n'
+            # request new config and update.
+
+        # Visualize the volume and pitch.
+        print loudness, pitch
+        show_loudness(loudness)
 
         if loudness > -7:
             INPUT_STREAM.stop_stream()

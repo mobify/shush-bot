@@ -1,3 +1,2 @@
-from capture import INPUT_STREAM
-
-
+def show_loudness(loudness):
+    pass
