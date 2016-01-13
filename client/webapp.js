@@ -7,7 +7,7 @@
     var $list = $('#bots');
 
     var setConfiguration = function($bot) {
-        var inputThreshold = $bot.find('[data-type="threshold"]').text();
+        var inputThreshold = $bot.find('.range input').val();
         // var speakerVolume = $bot.find('[data-type="volume"]').text();
         // var state = $bot.find('[data-type="state"] option:selected').val();
 
@@ -15,7 +15,7 @@
             url: SERVER,
             method: 'POST',
             data: {
-                inputThreshold: ''
+                inputThreshold: inputThreshold
             }
         });
     };
@@ -43,10 +43,10 @@
                 $type.text(key);
 
                 if (key === 'threshold') {
-                    $rangeClone.val(value);
+                    $rangeClone.find('input').val(value);
                     $value.replaceWith($rangeClone);
                 } else {
-                    $value.text(value);
+                    $value.val(value);
                 }
 
                 // if (key === 'state') {
@@ -58,7 +58,7 @@
 
                 if (READ_ONLY.indexOf(key) !== -1) {
                     $value.attr('readonly', 'readonly');
-                    $rowClone.find('.submit').attr('disabled', 'disabled');
+                    $rowClone.find('.submit').addClass('hidden');
                 }
 
                 $liClone.find('.info').append($rowClone);
@@ -86,7 +86,7 @@
                                 name: 'bot1',
                                 configuration: {
                                     timestamp: '13135823058',
-                                    threshold: '0.8'
+                                    threshold: '-30'
                                 }
                             },
                             {
