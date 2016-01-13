@@ -3,12 +3,12 @@
         'timestamp',
         'id'
     ];
-    var SERVER = 'http://localhost:3000';
+    var SERVER = 'http://localhost:5001';
 
     var $list = $('#bots');
 
     var setConfiguration = function($bot) {
-        var inputThreshold = $bot.find('.range input').val();
+        var threshold = $bot.find('.range input').val();
         var id = $bot.find('[data-type="id"]').val();
         // var speakerVolume = $bot.find('[data-type="volume"]').text();
         // var state = $bot.find('[data-type="state"] option:selected').val();
@@ -17,7 +17,7 @@
             url: SERVER + '/bots/' + id + '/configuration',
             method: 'POST',
             data: {
-                inputThreshold: inputThreshold
+                threshold: threshold
             }
         });
     };
