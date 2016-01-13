@@ -6,12 +6,15 @@ from playback import shush
 from visualize import show_loudness
 from web_client import get_config
 
+# App Constants
+SHUSHBOT_ID = 1
+
 def main():
     # Initial values.
     loudness = -40
     loop_count = 0
 
-    threshold, volume = get_config();
+    threshold, volume = get_config(SHUSHBOT_ID);
 
     # Main control loop.
     while True:
