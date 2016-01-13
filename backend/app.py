@@ -14,8 +14,8 @@ class ShushBot(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(100))
     location = db.Column(db.String(100))
-    threshold = db.Column(db.Float, default=50)
-    volume = db.Column(db.Integer, default=50)
+    threshold = db.Column(db.Float, default=0)
+    volume = db.Column(db.Integer, default=0)
     enabled = db.Column(db.Boolean, default=False)
     reports = db.relationship('Report', backref='shush_bot', cascade="all, delete-orphan")
 
