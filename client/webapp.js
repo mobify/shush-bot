@@ -2,7 +2,7 @@
     var READ_ONLY = [
         'timestamp'
     ];
-    var SERVER = '';
+    var SERVER = 'http://localhost:3000';
 
     var $list = $('#bots');
 
@@ -12,7 +12,7 @@
         // var state = $bot.find('[data-type="state"] option:selected').val();
 
         $.ajax({
-            url: 'http://localhost:3000',
+            url: SERVER,
             method: 'POST',
             data: {
                 inputThreshold: ''
@@ -74,7 +74,7 @@
         $getBotsButton.on('click', function() {
             $.ajax({
                 // url: SERVER + '/',
-                url: 'http://localhost:3000',
+                url: SERVER,
                 method: 'GET',
                 complete: function(xhr, status) {
                     $list.empty();
