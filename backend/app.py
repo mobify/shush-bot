@@ -14,9 +14,10 @@ class ShushBot(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(100))
     location = db.Column(db.String(100))
-    state = db.Column(db.Integer, default=50)
+    threshold = db.Column(db.Float, default=50)
     volume = db.Column(db.Integer, default=50)
     enabled = db.Column(db.Boolean, default=False)
+    reports = db.relationship('Report', backref='shush_bot', cascade="all, delete-orphan")
 
     def __repr__(self):
         return '<ShushBot {}>'.format(self.id)
@@ -27,9 +28,10 @@ class Report(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     timestamp = db.Column(db.DateTime)
-    state = db.Column(db.Integer)
+    threshold = db.Column(db.Float)
     decibels = db.Column(db.Float())
     shush = db.Column(db.Boolean)
+    shush_bot_id = db.Column(db.Integer(), db.ForeignKey('shush_bots.id'))
 
     def __repr__(self):
         return '<Report {}>'.format(self.id)
@@ -66,7 +68,7 @@ def hello():
 def get_bot(bot_id):
     bot = get_bot_or_404(bot_id)
     res = dict(
-        state=bot.state,
+        threshold=bot.threshold,
         volume=bot.volume,
         enabled=bot.enabled
     )
@@ -78,7 +80,7 @@ def get_configuration(bot_id):
     if request.method == 'POST':
         bot = get_bot_or_404(bot_id)
         res = dict(
-            state=bot.state,
+            threshold=bot.threshold,
             volume=bot.volume,
             enabled=bot.enabled
         )
@@ -87,7 +89,7 @@ def get_configuration(bot_id):
     # GET Request
     bot = get_bot_or_create(bot_id)
     res = dict(
-        state=bot.state,
+        threshold=bot.threshold,
         volume=bot.volume,
         enabled=bot.enabled
     )
@@ -98,4 +100,4 @@ if __name__ == '__main__':
     with app.app_context():
         current_app.config.from_object('settings')
         db.create_all()
-    app.run(debug=True)
+    app.run('0.0.0.0', port=5001, debug=True)
