@@ -1,6 +1,7 @@
 (function($) {
     var READ_ONLY = [
-        'timestamp'
+        'timestamp',
+        'id'
     ];
     var SERVER = 'http://localhost:3000';
 
@@ -8,6 +9,7 @@
 
     var setConfiguration = function($bot) {
         var inputThreshold = $bot.find('.range input').val();
+        var id = $bot.find('[data-type="id"]').val();
         // var speakerVolume = $bot.find('[data-type="volume"]').text();
         // var state = $bot.find('[data-type="state"] option:selected').val();
 
@@ -15,6 +17,7 @@
             url: SERVER,
             method: 'POST',
             data: {
+                id: id,
                 inputThreshold: inputThreshold
             }
         });
@@ -40,6 +43,7 @@
                 var $value = $rowClone.find('.value');
 
                 var value = data.configuration[key];
+                $value.attr('data-type', key);
                 $type.text(key);
 
                 if (key === 'threshold') {
@@ -85,6 +89,7 @@
                             {
                                 name: 'bot1',
                                 configuration: {
+                                    id: 0,
                                     timestamp: '13135823058',
                                     threshold: '-30'
                                 }
@@ -92,8 +97,9 @@
                             {
                                 name: 'bot2',
                                 configuration: {
+                                    id: 1,
                                     timestamp: '13135823058',
-                                    state: '1'
+                                    threshold: '-40'
                                 }
                             },
                         ]
