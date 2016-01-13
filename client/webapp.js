@@ -14,10 +14,9 @@
         // var state = $bot.find('[data-type="state"] option:selected').val();
 
         $.ajax({
-            url: SERVER,
+            url: SERVER + '/bots/' + id + '/configuration',
             method: 'POST',
             data: {
-                id: id,
                 inputThreshold: inputThreshold
             }
         });
@@ -78,7 +77,7 @@
         $getBotsButton.on('click', function() {
             $.ajax({
                 // url: SERVER + '/',
-                url: SERVER,
+                url: SERVER + '/bots',
                 method: 'GET',
                 complete: function(xhr, status) {
                     $list.empty();
