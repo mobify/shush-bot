@@ -81,30 +81,30 @@
                 method: 'GET',
                 complete: function(xhr, status) {
                     $list.empty();
-                    // var res = JSON.parse(xhr.responseText);
+                    var res = JSON.parse(xhr.responseText);
 
-                    var mock = {
-                        bots: [
-                            {
-                                name: 'bot1',
-                                configuration: {
-                                    id: 0,
-                                    timestamp: '13135823058',
-                                    threshold: '-30'
-                                }
-                            },
-                            {
-                                name: 'bot2',
-                                configuration: {
-                                    id: 1,
-                                    timestamp: '13135823058',
-                                    threshold: '-40'
-                                }
-                            },
-                        ]
-                    };
+                    // var mock = {
+                    //     bots: [
+                    //         {
+                    //             name: 'bot1',
+                    //             configuration: {
+                    //                 id: 0,
+                    //                 timestamp: '13135823058',
+                    //                 threshold: '-30'
+                    //             }
+                    //         },
+                    //         {
+                    //             name: 'bot2',
+                    //             configuration: {
+                    //                 id: 1,
+                    //                 timestamp: '13135823058',
+                    //                 threshold: '-40'
+                    //             }
+                    //         },
+                    //     ]
+                    // };
 
-                    $.each(mock.bots, function(idx, bot) {
+                    $.each(res.bots, function(idx, bot) {
                         renderList(bot);
                     });
                 }
