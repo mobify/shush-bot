@@ -21,17 +21,23 @@
         </div>
 
         <template id="bots-template">
-            <li>
+            <li class="bot">
                 <h2 class="bot-name">
                 </h2>
                 <div class="info">
-                    <div class="row">
-                        <span class="type"></span>
-                        <input type="text" class="data"></span>
-                        <button class="submit">Update</button>
-                    </div>
                 </div>
             </li>
+            <div class="row">
+                <span class="type"></span>
+                <input type="text" class="value"></span>
+                <button class="submit">Update</button>
+            </div>
+            <input class="range" type="range" min="0.0" max="1.0" step="0.1" />
+            <select>
+                <option>Loud</option>
+                <option>Quiet</option>
+                <option>Off</option>
+            </select>
         </template>
     </div>
 
