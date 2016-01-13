@@ -14,10 +14,15 @@ class ShushBot(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(100))
     location = db.Column(db.String(100))
-    threshold = db.Column(db.Float, default=0)
+    threshold = db.Column(db.Float, default=-7)
     volume = db.Column(db.Integer, default=0)
     enabled = db.Column(db.Boolean, default=False)
     reports = db.relationship('Report', backref='shush_bot', cascade="all, delete-orphan")
+
+
+    def __init__(self, *args, **kwargs):
+        super(ShushBot, self).__init__(*args, **kwargs)
+        self.name = "ShushBot-{}".format(self.id)
 
     def __repr__(self):
         return '<ShushBot {}>'.format(self.id)
@@ -58,10 +63,37 @@ def get_bot_or_404(bot_id):
     return bot
 
 
+def transform_bot(bot):
+    configuration = dict(
+        id=bot.id,
+        threshold=bot.threshold,
+    )
+
+    return dict(
+        name=bot.name,
+        configuration=configuration
+    )
+
+
 # Routes
 @app.route('/')
 def hello():
-    return 'Hello'
+    return app.send_static_file('index.html')
+
+
+@app.route('/js/<path:path>')
+def return_static_files(path):
+    return app.send_static_file(path)
+
+
+@app.route('/bots')
+def get_bots():
+    bots = ShushBot.query.all()
+
+    res = dict(
+        bots=[transform_bot(bot) for bot in bots]
+    )
+    return json.jsonify(res)
 
 
 @app.route('/bots/<bot_id>')
@@ -79,12 +111,14 @@ def get_bot(bot_id):
 def get_configuration(bot_id):
     if request.method == 'POST':
         bot = get_bot_or_404(bot_id)
-        res = dict(
-            threshold=bot.threshold,
-            volume=bot.volume,
-            enabled=bot.enabled
-        )
-        return
+        bot.threshold = float(request.form['threshold'])
+        try:
+            db.session.add(bot)
+        except Exception:
+            db.session.rollback()
+        db.session.commit()
+
+        return json.jsonify(transform_bot(bot))
 
     # GET Request
     bot = get_bot_or_create(bot_id)
