@@ -7,7 +7,7 @@ shushing = False
 def shush():
     shushing = True
     chunk = 1024
-    wf = wave.open('app/sound-samples/shush.wav', 'rb')
+    wf = wave.open('app/sound-samples/shush-short.wav', 'rb')
     p = pyaudio.PyAudio()
 
     stream = p.open(

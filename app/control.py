@@ -4,12 +4,14 @@ import analyse
 from capture import INPUT_STREAM
 from playback import shush
 from visualize import show_loudness
-
+from web_client import get_config
 
 def main():
     # Initial values.
     loudness = -40
     loop_count = 0
+
+    threshold, volume = get_config();
 
     # Main control loop.
     while True:
@@ -34,7 +36,7 @@ def main():
         print loudness, pitch
         show_loudness(loudness)
 
-        if loudness > -7:
+        if loudness > threshold:
             INPUT_STREAM.stop_stream()
             shush()
             INPUT_STREAM.start_stream()
