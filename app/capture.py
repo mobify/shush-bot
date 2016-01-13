@@ -1,6 +1,6 @@
 import numpy
 import pyaudio
-import analyse
+import SoundAnalyse as analyse
 
 # Initialize PyAudio
 pyaud = pyaudio.PyAudio()
