@@ -8,16 +8,14 @@
 
     var setConfiguration = function($bot) {
         var inputThreshold = $bot.find('[data-type="threshold"]').text();
-        var speakerVolume = $bot.find('[data-type="volume"]').text();
-        var state = $bot.find('[data-type="state"] option:selected').val();
+        // var speakerVolume = $bot.find('[data-type="volume"]').text();
+        // var state = $bot.find('[data-type="state"] option:selected').val();
 
         $.ajax({
             url: 'http://localhost:3000',
             method: 'POST',
             data: {
-                inputThreshold: '',
-                speakerVolume: '',
-                state: ''
+                inputThreshold: ''
             }
         });
     };
