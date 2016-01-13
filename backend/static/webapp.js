@@ -1,21 +1,23 @@
 (function($) {
     var READ_ONLY = [
-        'timestamp'
+        'timestamp',
+        'id'
     ];
     var SERVER = 'http://localhost:5001';
 
     var $list = $('#bots');
 
     var setConfiguration = function($bot) {
-        var inputThreshold = $bot.find('.range input').val();
+        var threshold = $bot.find('.range input').val();
+        var id = $bot.find('[data-type="id"]').val();
         // var speakerVolume = $bot.find('[data-type="volume"]').text();
         // var state = $bot.find('[data-type="state"] option:selected').val();
 
         $.ajax({
-            url: SERVER + '/bots/1/configuration',
+            url: SERVER + '/bots/' + id + '/configuration',
             method: 'POST',
             data: {
-                inputThreshold: inputThreshold
+                threshold: threshold
             }
         });
     };
@@ -40,6 +42,7 @@
                 var $value = $rowClone.find('.value');
 
                 var value = data.configuration[key];
+                $value.attr('data-type', key);
                 $type.text(key);
 
                 if (key === 'threshold') {
@@ -74,32 +77,34 @@
         $getBotsButton.on('click', function() {
             $.ajax({
                 // url: SERVER + '/',
-                url: SERVER,
+                url: SERVER + '/bots',
                 method: 'GET',
                 complete: function(xhr, status) {
                     $list.empty();
-                    // var res = JSON.parse(xhr.responseText);
+                    var res = JSON.parse(xhr.responseText);
 
-                    var mock = {
-                        bots: [
-                            {
-                                name: 'bot1',
-                                configuration: {
-                                    timestamp: '13135823058',
-                                    threshold: '-30'
-                                }
-                            },
-                            {
-                                name: 'bot2',
-                                configuration: {
-                                    timestamp: '13135823058',
-                                    state: '1'
-                                }
-                            },
-                        ]
-                    };
+                    // var mock = {
+                    //     bots: [
+                    //         {
+                    //             name: 'bot1',
+                    //             configuration: {
+                    //                 id: 0,
+                    //                 timestamp: '13135823058',
+                    //                 threshold: '-30'
+                    //             }
+                    //         },
+                    //         {
+                    //             name: 'bot2',
+                    //             configuration: {
+                    //                 id: 1,
+                    //                 timestamp: '13135823058',
+                    //                 threshold: '-40'
+                    //             }
+                    //         },
+                    //     ]
+                    // };
 
-                    $.each(mock.bots, function(idx, bot) {
+                    $.each(res.bots, function(idx, bot) {
                         renderList(bot);
                     });
                 }
