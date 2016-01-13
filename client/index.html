@@ -2,6 +2,18 @@
 <html>
 <head>
     <title>Shush!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .range input {
+            display: inline-block;
+            width: 50%;
+        }
+    </style>
 </head>
 <body>
     <h1>Shush!</h1>
@@ -21,17 +33,27 @@
         </div>
 
         <template id="bots-template">
-            <li>
+            <li class="bot">
                 <h2 class="bot-name">
                 </h2>
                 <div class="info">
-                    <div class="row">
-                        <span class="type"></span>
-                        <input type="text" class="data"></span>
-                        <button class="submit">Update</button>
-                    </div>
                 </div>
             </li>
+            <div class="row">
+                <span class="type"></span>
+                <input type="text" class="value"></span>
+                <button class="submit">Update</button>
+            </div>
+            <div class="range">
+                <span>Quiet</span>
+                    <input type="range" min="-40" max="0" step="1" />
+                <span>Loud</span>
+            </div>
+            <select>
+                <option>Loud</option>
+                <option>Quiet</option>
+                <option>Off</option>
+            </select>
         </template>
     </div>
 
