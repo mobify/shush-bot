@@ -16,7 +16,7 @@ To install shush-bot:
 
 ## *nix
 * clone the repo
-* sudo apt-get install python-pyaudio python3-pyaudio
+* `sudo apt-get install python-pyaudio python3-pyaudio python-dev`
 * create a new virtual environment `virtualenv venv`
 * `. venv/bin/activate`
 * install the requirements `pip install -r requirements.txt`
