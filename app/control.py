@@ -1,5 +1,7 @@
 import numpy
 import analyse
+import signal
+import sys
 
 from capture import INPUT_STREAM
 from playback import shush
@@ -9,16 +11,18 @@ from web_client import get_config
 # App Constants
 SHUSHBOT_ID = 1
 
+def signal_handler(signal, frame):
+    print('Goodbye!')
+    sys.exit(0)
+
 def main():
     # Initial values.
-    loudness = -40
-    loop_count = 0
+    signal.signal(signal.SIGINT, signal_handler)
 
-    threshold, volume = get_config(SHUSHBOT_ID);
+    threshold, loudness = get_config(SHUSHBOT_ID);
 
     # Main control loop.
     while True:
-        loop_count += 1
 
         # Read raw microphone data
         rawsamps = INPUT_STREAM.read(1024)
@@ -29,11 +33,6 @@ def main():
             analyse.loudness(samps),
             analyse.musical_detect_pitch(samps)
         )
-
-        # Poll for config changes.
-        if loop_count % 100 == 0:
-            print '\n\n Updating config...\n\n\n'
-            # request new config and update.
 
         # Visualize the volume and pitch.
         print loudness, pitch
