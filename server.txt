@@ -1,0 +1,21 @@
+Server
+
+- Database
+    - Client model
+        - UID === location slug
+        - Configuration settings
+            - State: Loud, Quiet, Off (controls microphone threshold value)
+            - Speaker volume
+            - Shush media?
+        - Shush history
+- Endpoints
+    - GET “/configuration?uuid=<uuid>"
+        - Response:
+            - Time of last config update on server
+            - Configuration data
+    - POST “/report?uuid=<uuid>"
+        - Parameters:
+            - Time
+            - State
+            - Decibel level
+            - Shush boolean
