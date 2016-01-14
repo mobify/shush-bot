@@ -2,13 +2,12 @@ import numpy
 import analyse
 import signal
 import sys
+import time
 
 from capture import INPUT_STREAM
 from playback import shush
 from visualize import show_loudness
 from web_client import update_config
-from web_client import local_state
-from threading import Timer
 
 # App Constants
 SHUSHBOT_ID = 1
@@ -18,22 +17,19 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 def main():
+    poll_time = time.time();
 
     # Initial values.
     signal.signal(signal.SIGINT, signal_handler)
 
     # Kickoff the auto updating config
-    Timer(0, update_config, [SHUSHBOT_ID]).start()
-
-    threshold, volume = (
-        local_state["threshold"],
-        local_state["volume"]
-    )
+    threshold, volume = update_config(SHUSHBOT_ID)
 
     # Main control loop.
     while True:
         # Read raw microphone data
-        rawsamps = INPUT_STREAM.read(1024)
+        rawsamps = INPUT_STREAM.read(1024, exception_on_overflow = False)
+
         # Convert raw data to NumPy array
         samps = numpy.fromstring(rawsamps, dtype=numpy.int16)
 
@@ -42,6 +38,14 @@ def main():
             analyse.loudness(samps),
             analyse.musical_detect_pitch(samps)
         )
+
+        if time.time() - poll_time > 10:
+            try:
+                poll_time = time.time()
+                threshold, volume = update_config(SHUSHBOT_ID)
+            except:
+                pass
+
 
         # Visualize the volume and pitch.
         print loudness, pitch
